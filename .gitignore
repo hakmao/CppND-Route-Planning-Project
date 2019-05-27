@@ -1,8 +1,41 @@
-*.swp
-*.osm
-*.o
-draw.cpp
-test.cpp
+# Output Directories
+# ==================
 build/
 bin/
 lib/
+*debug/
+
+# Editor Files
+# ============
+*~
+~*
+*.sw?
+.brackets.json
+.idea/
+workspace.xml
+
+# C/C++
+*.o
+*.slo
+*.lo
+*.so
+*.so.*
+*.lib
+*.dll
+*.dylib
+*.lai
+*.la
+*.a
+*.exe
+*.out
+*.app
+*.swp
+*.osm
+draw.cpp
+test.cpp
+
+# CMake
+install_manifest.txt
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
