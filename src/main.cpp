@@ -32,7 +32,7 @@ void GetInputCoordinate(float & input_variable){
         std::cout << "Please enter a value (between 0 and 100): ";
         std::cin >> input_variable;
         std::cout << "\n";
-    } while (input_variable < 0 || input_variable > 100);
+    } while (input_variable < 0 || input_variable > 100); // Condition will fail provided input is in correct range
 }
 
 int main(int argc, const char **argv)
@@ -57,10 +57,8 @@ int main(int argc, const char **argv)
         else
             osm_data = std::move(*data);
     }
-    
-    // TODO: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
-    // user input for these values using std::cin. Pass the user input to the
-    // RoutePlanner object below.
+
+    // Get user specified coordinates
     float start_x, start_y, end_x, end_y;
     std::cout << "Starting point X coordinate. ";
     GetInputCoordinate(start_x);
@@ -77,9 +75,10 @@ int main(int argc, const char **argv)
     // Perform search and render results.
     RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
     route_planner.AStarSearch();
-    std::cout << "Path length: " << route_planner.GetDistance() << "metres.\n";
-    Render render{model};
     // Print total length of path found
+    std::cout << "Path length: " << route_planner.GetDistance() << " metres.\n";
+    //
+    Render render{model};
 
 
     auto display = io2d::output_surface{400, 400, io2d::format::argb32, io2d::scaling::none, io2d::refresh_style::fixed, 30};
