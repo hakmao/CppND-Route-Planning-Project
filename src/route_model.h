@@ -17,16 +17,17 @@ public:
         float h_value = std::numeric_limits<float>::max();
         float g_value = 0.0;
         bool visited = false;
-        std::vector<Node *> neighbours;
-        void FindNeighbours();
+        std::vector<Node *> neighbors;
+        void FindNeighbors();
         Node(){}
         Node(int idx, RouteModel * search_model, Model::Node node) : Model::Node(node), parent_model(search_model), index(idx) {}
         float distance(Node n) const { return std::sqrt(std::pow(x - n.x, 2) + std::pow(y - n.y, 2)); }
+        float GetFValue() const { return h_value + g_value; }
     private:
         // Add private Node variables and methods here.
         int index;
         RouteModel * parent_model = nullptr;
-        Node* FindNeighbour(std::vector<int> node_indices);
+        Node* FindNeighbor(std::vector<int> node_indices);
     };
 
     // Add public RouteModel variables and methods here.

@@ -23,35 +23,35 @@ void RouteModel::CreateNodeToRoadHashmap(){
     }
 }
 
-RouteModel::Node* RouteModel::Node::FindNeighbour(std::vector<int> node_indices){
+RouteModel::Node* RouteModel::Node::FindNeighbor(std::vector<int> node_indices){
     Node* closest_node = nullptr;
     Node node;
     for (int node_idx: node_indices){
         node = parent_model->SNodes()[node_idx];
-        if (!node.visited && distance(node) != 0.0){
-            if (closest_node == nullptr || distance(node) < distance(*closest_node)){
-                closest_node = &node;
+        if (!node.visited && this->distance(node) != 0){
+            if (closest_node == nullptr || this->distance(node) < this->distance(*closest_node)){
+                closest_node = &parent_model->SNodes()[node_idx];
             }
         }
     }
     return closest_node;
 }
 
-void RouteModel::Node::FindNeighbours(){
+void RouteModel::Node::FindNeighbors(){
     auto roads = parent_model->node_to_road[this->index];
     // 'roads' is of type std::vector<const Model::Road*>>, so each 'road' is of type const Model::Road*
-    // we need the set of indices related to each road, in order to use FindNeighbour().
-    // FindNeighbour() returns a pointer to the closest node (if any)
+    // we need the set of indices related to each road, in order to use FindNeighbor().
+    // FindNeighbor() returns a pointer to the closest node (if any)
     std::vector<int> node_indices;
     RouteModel::Node * p_closest;
     for(auto & road: roads){
         // Each Model::Way object has an attribute '.nodes', a vector of node indices.
         // So, for a given road object, we can find all the node indices related to it with Ways()[road.way].nodes
         node_indices = parent_model->Ways()[road->way].nodes;
-        // Now we can use FindNeighbour()
-        p_closest = this->FindNeighbour(node_indices);
+        // Now we can use FindNeighbor()
+        p_closest = this->FindNeighbor(node_indices);
         if (p_closest){
-            this->neighbours.push_back(p_closest);
+            this->neighbors.push_back(p_closest);
         }
     }
 }
@@ -78,3 +78,4 @@ RouteModel::Node & RouteModel::FindClosestNode(double x, double y){
     }
     return SNodes()[closest_idx];
 }
+

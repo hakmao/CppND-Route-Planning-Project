@@ -27,6 +27,14 @@ static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
     return std::move(contents);
 }
 
+void GetInputCoordinate(float & input_variable){
+    do {
+        std::cout << "Please enter a value (between 0 and 100): ";
+        std::cin >> input_variable;
+        std::cout << "\n";
+    } while (input_variable < 0 || input_variable > 100);
+}
+
 int main(int argc, const char **argv)
 {    
     std::string osm_data_file = "";
@@ -53,13 +61,26 @@ int main(int argc, const char **argv)
     // TODO: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
     // user input for these values using std::cin. Pass the user input to the
     // RoutePlanner object below.
+    float start_x, start_y, end_x, end_y;
+    std::cout << "Starting point X coordinate. ";
+    GetInputCoordinate(start_x);
+    std::cout << "Starting point Y coordinate. ";
+    GetInputCoordinate(start_y);
+    std::cout << "End point X coordinate. ";
+    GetInputCoordinate(end_x);
+    std::cout << "End point Y coordinate. ";
+    GetInputCoordinate(end_y);
 
     // Build Model.
     RouteModel model{osm_data};
 
     // Perform search and render results.
-    RoutePlanner route_planner{model, 10, 10, 90, 90};
+    RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
+    route_planner.AStarSearch();
+    std::cout << "Path length: " << route_planner.GetDistance() << "metres.\n";
     Render render{model};
+    // Print total length of path found
+
 
     auto display = io2d::output_surface{400, 400, io2d::format::argb32, io2d::scaling::none, io2d::refresh_style::fixed, 30};
     display.size_change_callback([](io2d::output_surface& surface){
